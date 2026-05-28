@@ -621,28 +621,28 @@ body {
         <div class="debt-row">
           <div class="debt-top">
             <span class="debt-name">Aflossing voortgang</span>
-            <span class="debt-amounts" id="sc_amounts">€12.963 terugbetaald van €82.500</span>
+            <span class="debt-amounts" id="sc_amounts">€12.963 terugbetaald van €80.250</span>
           </div>
           <div class="debt-bar-bg">
-            <div class="debt-bar-fill" id="sc_bar" style="width:15.7%;background:var(--negative)"></div>
+            <div class="debt-bar-fill" id="sc_bar" style="width:16.2%;background:var(--negative)"></div>
           </div>
           <div class="debt-meta">
-            <span id="sc_pct">15,7% afgelost</span>
-            <span id="sc_rest">Nog open: ~€69.537</span>
+            <span id="sc_pct">16,2% afgelost</span>
+            <span id="sc_rest">Nog open: ~€67.287</span>
           </div>
         </div>
         <div class="signal orange" style="margin-top:16px">
           <span class="signal-icon">⏱</span>
           <div class="signal-text">
-            <strong>Aflossing: 12,5% van dagelijkse omzet</strong>
-            Bij €120K/mnd omzet: ~€15.000/mnd aflossing. Volledig afgelost ~september 2026.
+            <strong>Aflossing: 12% van dagelijkse omzet</strong>
+            Bij €120K/mnd omzet: ~€14.400/mnd aflossing. Volledig afgelost ~september 2026.
           </div>
         </div>
         <div class="signal green" style="margin-top:0">
           <span class="signal-icon">✅</span>
           <div class="signal-text">
-            <strong>Kosten: €7.500 totaal (10%)</strong>
-            Geleend €75.000, terug te betalen €82.500. Acceptabel voor groeikapitaal.
+            <strong>Kosten: €5.250 totaal (7%)</strong>
+            Geleend €75.000 | Vergoeding €5.250 (7%) | Terug te betalen €80.250.
           </div>
         </div>
       </div>
@@ -759,7 +759,7 @@ const DATA = {
       nieuwe_klanten: 300,
     },
     mrt: {
-      omzet_shopify: 67340, omzet_bol: 8864, omzet_amazon: 1614, omzet_daisycon: 497, omzet_paypro: 4015, omzet_influencer: 2396,
+      omzet_shopify: 85740, omzet_bol: 8864, omzet_amazon: 1614, omzet_daisycon: 497, omzet_paypro: 4015, omzet_influencer: 2396,
       orders_shopify: 558, orders_bol: 81, orders_amazon: 27, orders_daisycon: 13, orders_paypro: 24, orders_influencer: 11,
       meta_spend: 18971, google_spend: 3200, bol_adspend: 1143, amazon_adspend: 978,
       inkoop_pct: 0.47, fulfillment: 6.92, betaalverwerking: 1.30,
@@ -814,10 +814,10 @@ const MAANDEN = ['jan','feb','mrt','apr','mei','jun','jul','aug','sep','okt','no
 const MAAND_LABELS = ['Jan','Feb','Mrt','Apr','Mei','Jun','Jul','Aug','Sep','Okt','Nov','Dec'];
 
 const FORECAST_DATA = [
-  { m: 'Jun', omzet: 115000, ads: 38000, orders: 860, inkoop: 0.47, sc_open_start: 69537, netto: -7613 },
-  { m: 'Jul', omzet: 140000, ads: 45000, orders: 1050, inkoop: 0.47, netto: -6050 },
-  { m: 'Aug', omzet: 160000, ads: 52000, orders: 1200, inkoop: 0.47, netto: -6183 },
-  { m: 'Sep', omzet: 180000, ads: 58000, orders: 1350, inkoop: 0.47, netto: -478 },
+  { m: 'Jun', omzet: 115000, ads: 38000, orders: 860, inkoop: 0.47, sc_open_start: 69537, netto: -7038 },
+  { m: 'Jul', omzet: 140000, ads: 45000, orders: 1050, inkoop: 0.47, netto: -5350 },
+  { m: 'Aug', omzet: 160000, ads: 52000, orders: 1200, inkoop: 0.47, netto: -5383 },
+  { m: 'Sep', omzet: 180000, ads: 58000, orders: 1350, inkoop: 0.47, netto: -303 },
   { m: 'Okt', omzet: 220000, ads: 70000, orders: 1650, inkoop: 0.35, netto: 50318, new_supplier: true },
   { m: 'Nov', omzet: 300000, ads: 95000, orders: 2250, inkoop: 0.35, netto: 72386, new_supplier: true },
   { m: 'Dec', omzet: 350000, ads: 110000, orders: 2600, inkoop: 0.35, netto: 87009, new_supplier: true },
@@ -899,7 +899,7 @@ function renderOverzicht() {
     { label: 'Bruto marge', val: c.bruto !== null ? eur(c.bruto) : '—', sub: `${pct(c.bruto_pct)} van omzet`, cls: c.bruto_pct > 35 ? 'pos' : 'warn' },
     { label: 'Ad spend totaal', val: eur(c.ads_total), sub: `ROAS: ${c.roas.toFixed(2)}x`, cls: 'neg' },
     { label: 'CM ná ads', val: eur(c.cm_na_ads), sub: `${pct(c.cm_na_ads_pct)} van omzet`, cls: c.cm_na_ads >= 0 ? 'pos' : 'neg' },
-    { label: 'CPA werkelijk', val: c.cpa > 0 ? eur(c.cpa) : '—', sub: 'Target ≤ €55', cls: c.cpa > 55 ? 'neg' : (c.cpa > 0 ? 'pos' : '') },
+    { label: 'CPA werkelijk', val: c.cpa > 0 ? eur(c.cpa) : '—', sub: c.cpa > 55 ? '🔴 Verlies' : c.cpa > 34 ? '🟠 Break-even (€34-€55)' : c.cpa > 0 ? '🟢 Winstgevend (≤€34)' : 'Top: €28 | Break-even: €34', cls: c.cpa > 55 ? 'neg' : (c.cpa > 34 && c.cpa > 0 ? 'warn' : (c.cpa > 0 ? 'pos' : '')) },
   ];
 
   document.getElementById('ov_cards').innerHTML = cards.map(card => `
@@ -912,8 +912,8 @@ function renderOverzicht() {
 
   // KPIs
   const kpis = [
-    { name: 'ROAS', val: c.roas > 0 ? c.roas.toFixed(2) + 'x' : '—', target: 'Target ≥ 2,5x', ok: c.roas >= 2.5, hasdata: c.ads_total > 0 },
-    { name: 'CPA', val: c.cpa > 0 ? eur(c.cpa) : '—', target: 'Target ≤ €55', ok: c.cpa <= 55 && c.cpa > 0, hasdata: c.cpa > 0 },
+    { name: 'ROAS', val: c.roas > 0 ? c.roas.toFixed(2) + 'x' : '—', target: c.roas >= 2.8 ? '🟢 Winstgevend' : c.roas >= 2.0 ? '🟠 Break-even 2,80x' : '🔴 Verlies', ok: c.roas >= 2.8, warn: c.roas >= 2.0 && c.roas < 2.8, hasdata: c.ads_total > 0 },
+    { name: 'CPA', val: c.cpa > 0 ? eur(c.cpa) : '—', target: c.cpa <= 34 && c.cpa > 0 ? '🟢 Winstgevend (≤€34)' : c.cpa <= 55 && c.cpa > 0 ? '🟠 Break-even (€34-€55)' : c.cpa > 0 ? '🔴 Verlies (>€55)' : 'Top: €28 | Break-even: €34', ok: c.cpa <= 34 && c.cpa > 0, hasdata: c.cpa > 0 },
     { name: 'CM% na ads', val: pct(c.cm_na_ads_pct), target: 'Target ≥ 10%', ok: c.cm_na_ads_pct >= 10, hasdata: c.omzet_total > 0 },
     { name: 'AOV', val: eur(c.aov), target: 'Target ≥ €120', ok: c.aov >= 120, hasdata: c.orders_total > 0 },
     { name: 'Nieuwe klanten', val: d?.nieuwe_klanten ? d.nieuwe_klanten + ' klanten' : '—', target: 'Target ≥ 200/mnd', ok: (d?.nieuwe_klanten||0) >= 200, hasdata: !!(d?.nieuwe_klanten) },
@@ -940,12 +940,14 @@ function renderOverzicht() {
     signals.push({ cls: 'orange', icon: '📭', title: 'Geen data voor deze maand', body: 'Voeg de cijfers toe om signalen te zien.' });
   } else {
     if (d.note) signals.push({ cls: 'orange', icon: '⚠️', title: 'Gedeeltelijke data', body: d.note });
-    if (c.roas < 2.0 && c.ads_total > 0) signals.push({ cls: 'red', icon: '🚨', title: `ROAS ${c.roas.toFixed(2)}x — te laag`, body: 'Target is ≥2,5x. Ad spend direct verlagen of campagnes herstructureren.' });
-    else if (c.roas < 2.5 && c.ads_total > 0) signals.push({ cls: 'orange', icon: '⚠️', title: `ROAS ${c.roas.toFixed(2)}x — net onder target`, body: 'Scherp monitoren. Inefficiënte campagnes uitzetten.' });
+    if (c.roas < 2.0 && c.ads_total > 0) signals.push({ cls: 'red', icon: '🚨', title: `ROAS ${c.roas.toFixed(2)}x — verlies`, body: 'Break-even ROAS is 2,80x. Je verliest geld op elke euro ad spend.' });
+    else if (c.roas < 2.8 && c.ads_total > 0) signals.push({ cls: 'orange', icon: '⚠️', title: `ROAS ${c.roas.toFixed(2)}x — break-even zone`, body: 'Break-even ligt op 2,80x. Net onder winstgevend — campagnes optimaliseren.' });
+    else if (c.ads_total > 0) signals.push({ cls: 'green', icon: '✅', title: `ROAS ${c.roas.toFixed(2)}x — winstgevend`, body: 'Boven break-even van 2,80x. Ruimte om te schalen.' });
     else if (c.ads_total > 0) signals.push({ cls: 'green', icon: '✅', title: `ROAS ${c.roas.toFixed(2)}x — boven target`, body: 'Ads presteren goed. Ruimte om te schalen.' });
 
-    if (c.cpa > 70 && c.cpa > 0) signals.push({ cls: 'red', icon: '🚨', title: `CPA ${eur(c.cpa)} — te hoog`, body: 'Target ≤€55. Controleer welke campagnes CPA omhoog trekken.' });
-    else if (c.cpa > 55 && c.cpa > 0) signals.push({ cls: 'orange', icon: '⚠️', title: `CPA ${eur(c.cpa)} — boven target`, body: 'Licht boven target van €55. Bijsturen.' });
+    if (c.cpa > 55 && c.cpa > 0) signals.push({ cls: 'red', icon: '🚨', title: `CPA ${eur(c.cpa)} — verlies`, body: 'Break-even CPA is €34. Boven €55 verlies je geld. Campagnes direct bijsturen.' });
+    else if (c.cpa > 34 && c.cpa > 0) signals.push({ cls: 'orange', icon: '⚠️', title: `CPA ${eur(c.cpa)} — break-even zone`, body: 'Break-even is €34. Winstgevend wordt het onder €34, ideaal is €28.' });
+    else if (c.cpa > 0) signals.push({ cls: 'green', icon: '✅', title: `CPA ${eur(c.cpa)} — winstgevend`, body: 'Onder break-even van €34. Ideaal doel is €28.' });
     else if (c.cpa > 0) signals.push({ cls: 'green', icon: '✅', title: `CPA ${eur(c.cpa)} — binnen target`, body: 'Klantacquisitie efficiënt.' });
 
     if (c.cm_na_ads < 0) signals.push({ cls: 'red', icon: '🚨', title: `CM na ads negatief: ${eur(c.cm_na_ads)}`, body: 'Je geeft meer uit aan ads dan er na variabele kosten overblijft.' });
@@ -993,8 +995,8 @@ function renderKanalen() {
       inkoop: (d.omzet_bol||0) * 0.50,
       verzend: (d.orders_bol||0) * 9.20,
       extra: [
-        { l: 'Commissie ~17%', v: (d.omzet_bol||0) * 0.17 },
-        { l: 'Ad spend Bol', v: d.bol_adspend||0 },
+        { l: 'Commissie variabel (15.6%)', v: (d.omzet_bol||0) * 0.156 },
+        { l: 'Commissie vast (€0.85/order)', v: (d.orders_bol||0) * 0.85 },
       ]
     },
     {
@@ -1004,8 +1006,8 @@ function renderKanalen() {
       inkoop: (d.omzet_amazon||0) * 0.51,
       verzend: (d.orders_amazon||0) * 11.00,
       extra: [
-        { l: 'Commissie ~13%', v: (d.omzet_amazon||0) * 0.13 },
-        { l: 'Maandkosten', v: 45 },
+        { l: 'Commissie (~13%)', v: (d.omzet_amazon||0) * 0.13 },
+        { l: 'Maandkosten (vast)', v: d.omzet_amazon > 0 ? 45 : 0 },
       ]
     },
     {
@@ -1015,7 +1017,9 @@ function renderKanalen() {
       inkoop: (d.omzet_daisycon||0) * 0.45,
       verzend: (d.orders_daisycon||0) * 10.75,
       extra: [
-        { l: 'Commissie ~11%', v: (d.omzet_daisycon||0) * 0.11 },
+        { l: 'Commissie variabel (~8%)', v: (d.omzet_daisycon||0) * 0.08 },
+        { l: 'Commissie vast (~3%)', v: (d.omzet_daisycon||0) * 0.03 },
+        { l: 'Vaste kosten', v: d.omzet_daisycon > 0 ? 15 : 0 },
       ]
     },
     {
@@ -1025,7 +1029,9 @@ function renderKanalen() {
       inkoop: (d.omzet_paypro||0) * 0.45,
       verzend: (d.orders_paypro||0) * 8.90,
       extra: [
-        { l: 'Commissie ~12%', v: (d.omzet_paypro||0) * 0.12 },
+        { l: 'Commissie variabel (10%)', v: (d.omzet_paypro||0) * 0.10 },
+        { l: 'Commissie vast (2%)', v: (d.omzet_paypro||0) * 0.02 },
+        { l: 'Abonnement (vast)', v: d.omzet_paypro > 0 ? 15 : 0 },
       ]
     },
     {
