@@ -1,0 +1,1198 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Misstowels — Financieel Dashboard 2026</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap');
+
+:root {
+  --bg: #f5f3ef;
+  --surface: #ffffff;
+  --surface2: #f0ede8;
+  --border: #e2ddd6;
+  --ink: #1a1714;
+  --ink2: #6b6460;
+  --accent: #c8522a;
+  --accent2: #2a8c5e;
+  --accent3: #2a5a8c;
+  --accent4: #8c7a2a;
+  --negative: #c83a2a;
+  --positive: #2a8c5e;
+  --warning: #c87a2a;
+  --rule: #d5d0c8;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  min-height: 100vh;
+}
+
+/* TOP BAR */
+.topbar {
+  background: var(--ink);
+  color: #f5f3ef;
+  padding: 0 32px;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.topbar-logo {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 22px;
+  letter-spacing: 2px;
+  color: #f5f3ef;
+}
+
+.topbar-logo span { color: var(--accent); }
+
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: #a09890;
+}
+
+.topbar-period {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.topbar-period select {
+  background: #2a2520;
+  border: 1px solid #3a3530;
+  border-radius: 6px;
+  color: #f5f3ef;
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  padding: 4px 8px;
+  outline: none;
+  cursor: pointer;
+}
+
+/* LAYOUT */
+.container { max-width: 1400px; margin: 0 auto; padding: 32px 24px; }
+
+/* SECTION HEADERS */
+.section-head {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--ink);
+}
+
+.section-head h2 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 20px;
+  letter-spacing: 1.5px;
+  color: var(--ink);
+}
+
+.section-head span {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: var(--ink2);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* GRIDS */
+.grid-5 { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-bottom: 24px; }
+.grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 24px; }
+.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 24px; }
+.grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 24px; }
+
+/* METRIC CARDS */
+.mcard {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 18px 20px;
+  position: relative;
+}
+
+.mcard-label {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--ink2);
+  font-family: 'DM Mono', monospace;
+  margin-bottom: 8px;
+}
+
+.mcard-value {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 34px;
+  letter-spacing: 0.5px;
+  line-height: 1;
+  color: var(--ink);
+}
+
+.mcard-value.pos { color: var(--positive); }
+.mcard-value.neg { color: var(--negative); }
+.mcard-value.warn { color: var(--warning); }
+
+.mcard-sub {
+  font-size: 11px;
+  color: var(--ink2);
+  font-family: 'DM Mono', monospace;
+  margin-top: 4px;
+}
+
+.mcard-bar {
+  height: 3px;
+  background: var(--border);
+  border-radius: 2px;
+  margin-top: 10px;
+  overflow: hidden;
+}
+
+.mcard-bar-fill {
+  height: 100%;
+  border-radius: 2px;
+  transition: width 0.8s ease;
+}
+
+/* CHANNEL CARDS */
+.channel-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.channel-header {
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.channel-name {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 16px;
+  letter-spacing: 1px;
+  color: var(--ink);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.channel-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.channel-result {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 20px;
+  letter-spacing: 0.5px;
+}
+
+.channel-body { padding: 14px 18px; }
+
+.channel-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 12px;
+}
+
+.channel-row:last-child { border-bottom: none; }
+.channel-row .label { color: var(--ink2); }
+.channel-row .value { font-family: 'DM Mono', monospace; font-weight: 500; }
+.channel-row .value.neg { color: var(--negative); }
+.channel-row .value.pos { color: var(--positive); }
+
+/* P&L TABLE */
+.pl-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 24px;
+}
+
+.pl-table th {
+  background: var(--ink);
+  color: #f5f3ef;
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 10px 14px;
+  text-align: right;
+}
+
+.pl-table th:first-child { text-align: left; }
+
+.pl-table td {
+  padding: 9px 14px;
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  text-align: right;
+  border-bottom: 1px solid var(--border);
+  color: var(--ink);
+}
+
+.pl-table td:first-child { text-align: left; color: var(--ink); font-weight: 500; }
+.pl-table tr:last-child td { border-bottom: none; }
+.pl-table tr:hover td { background: var(--surface2); }
+
+.pl-table tr.subtotal td {
+  background: var(--surface2);
+  font-weight: 600;
+  border-top: 1px solid var(--rule);
+}
+
+.pl-table tr.total td {
+  background: var(--ink);
+  color: #f5f3ef;
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.pl-table tr.total td:first-child { color: #f5f3ef; }
+
+.pl-table td.neg { color: var(--negative); }
+.pl-table td.pos { color: var(--positive); }
+.pl-table td.warn { color: var(--warning); }
+.pl-table td.indent { padding-left: 28px; color: var(--ink2); font-weight: 400; }
+
+/* DEBT SECTION */
+.debt-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px 24px;
+}
+
+.debt-row { margin-bottom: 18px; }
+.debt-row:last-child { margin-bottom: 0; }
+
+.debt-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 6px;
+}
+
+.debt-name { font-weight: 600; font-size: 13px; }
+.debt-amounts { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--ink2); }
+
+.debt-bar-bg {
+  background: var(--surface2);
+  border-radius: 3px;
+  height: 8px;
+  overflow: hidden;
+}
+
+.debt-bar-fill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 1s ease;
+}
+
+.debt-meta {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 4px;
+  font-size: 11px;
+  font-family: 'DM Mono', monospace;
+  color: var(--ink2);
+}
+
+/* FORECAST */
+.forecast-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px 24px;
+}
+
+.forecast-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.forecast-row:last-child { border-bottom: none; }
+
+.fc-month {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 15px;
+  letter-spacing: 1px;
+  width: 36px;
+  color: var(--ink2);
+}
+
+.fc-month.active { color: var(--accent); }
+
+.fc-omzet {
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  width: 90px;
+  color: var(--ink);
+}
+
+.fc-bar-wrap { flex: 1; position: relative; height: 16px; }
+
+.fc-bar-bg {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--border);
+  border-radius: 2px;
+}
+
+.fc-bar-fill {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 0;
+  height: 4px;
+  border-radius: 2px;
+  transition: width 1s ease;
+}
+
+.fc-netto {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 15px;
+  letter-spacing: 0.5px;
+  width: 90px;
+  text-align: right;
+}
+
+.fc-netto.pos { color: var(--positive); }
+.fc-netto.neg { color: var(--negative); }
+
+.fc-tag {
+  font-size: 10px;
+  font-family: 'DM Mono', monospace;
+  padding: 2px 7px;
+  border-radius: 3px;
+  width: 80px;
+  text-align: center;
+}
+
+.fc-tag.pos { background: rgba(42,140,94,0.1); color: var(--positive); }
+.fc-tag.neg { background: rgba(200,58,42,0.1); color: var(--negative); }
+.fc-tag.new { background: rgba(42,140,94,0.15); color: var(--positive); font-weight: 600; }
+
+/* SIGNALS */
+.signal {
+  border-radius: 10px;
+  padding: 12px 16px;
+  margin-bottom: 8px;
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  font-size: 13px;
+  border-left: 3px solid;
+}
+
+.signal.red { background: rgba(200,58,42,0.06); border-color: var(--negative); }
+.signal.green { background: rgba(42,140,94,0.06); border-color: var(--positive); }
+.signal.orange { background: rgba(200,122,42,0.06); border-color: var(--warning); }
+
+.signal-icon { font-size: 15px; flex-shrink: 0; margin-top: 1px; }
+.signal-text { line-height: 1.4; }
+.signal-text strong { font-weight: 600; display: block; margin-bottom: 2px; }
+
+/* TABS */
+.nav {
+  display: flex;
+  gap: 2px;
+  margin-bottom: 28px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 4px;
+  width: fit-content;
+}
+
+.nav-btn {
+  background: none;
+  border: none;
+  border-radius: 7px;
+  color: var(--ink2);
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 8px 18px;
+  transition: all 0.15s;
+}
+
+.nav-btn.active {
+  background: var(--ink);
+  color: #f5f3ef;
+}
+
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+
+/* MONTH SELECTOR */
+.month-pills {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+
+.month-pill {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  color: var(--ink2);
+  cursor: pointer;
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  font-weight: 500;
+  padding: 5px 14px;
+  transition: all 0.15s;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.month-pill.active {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: #f5f3ef;
+}
+
+.month-pill.hasdata { border-color: var(--accent3); color: var(--accent3); }
+.month-pill.active.hasdata { background: var(--accent3); border-color: var(--accent3); color: white; }
+
+/* KPI STATUS */
+.kpi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 24px; }
+
+.kpi-item {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.kpi-left { flex: 1; }
+.kpi-name { font-size: 12px; color: var(--ink2); margin-bottom: 3px; }
+.kpi-val { font-family: 'Bebas Neue', sans-serif; font-size: 22px; letter-spacing: 0.5px; }
+.kpi-target { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--ink2); }
+
+.kpi-badge {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+.kpi-badge.ok { background: rgba(42,140,94,0.12); }
+.kpi-badge.warn { background: rgba(200,122,42,0.12); }
+.kpi-badge.bad { background: rgba(200,58,42,0.12); }
+
+/* RESPONSIVE */
+@media (max-width: 1000px) {
+  .grid-5 { grid-template-columns: repeat(3, 1fr); }
+  .grid-4 { grid-template-columns: repeat(2, 1fr); }
+  .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 640px) {
+  .grid-5, .grid-4, .grid-3, .grid-2, .kpi-grid { grid-template-columns: 1fr; }
+  .container { padding: 20px 16px; }
+  .topbar { padding: 0 16px; }
+}
+
+.spacer { height: 32px; }
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <div class="topbar-logo">Miss<span>Towels</span></div>
+  <div class="topbar-right">
+    <span id="last_update">Bijgewerkt: 28 mei 2026</span>
+    <div class="topbar-period">
+      <span>Periode:</span>
+      <select id="year_select" onchange="renderAll()">
+        <option value="2026" selected>2026</option>
+        <option value="2025">2025</option>
+      </select>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- NAV -->
+  <div class="nav">
+    <button class="nav-btn active" onclick="switchTab('overzicht')">📊 Overzicht</button>
+    <button class="nav-btn" onclick="switchTab('kanalen')">📦 Kanalen</button>
+    <button class="nav-btn" onclick="switchTab('pl')">📋 P&L</button>
+    <button class="nav-btn" onclick="switchTab('schulden')">🏦 Schulden</button>
+    <button class="nav-btn" onclick="switchTab('forecast')">🚀 Forecast</button>
+  </div>
+
+  <!-- ===== TAB: OVERZICHT ===== -->
+  <div id="tab-overzicht" class="tab-panel active">
+
+    <div class="section-head"><h2>Maandoverzicht</h2><span id="ov_period">Selecteer maand</span></div>
+
+    <div class="month-pills" id="month_pills_ov"></div>
+
+    <div class="grid-5" id="ov_cards">
+      <!-- filled by JS -->
+    </div>
+
+    <div class="kpi-grid" id="kpi_grid"></div>
+
+    <div class="section-head"><h2>Signalen</h2><span>Automatisch gegenereerd</span></div>
+    <div id="signals_container"></div>
+
+  </div>
+
+  <!-- ===== TAB: KANALEN ===== -->
+  <div id="tab-kanalen" class="tab-panel">
+
+    <div class="section-head"><h2>Kanalen</h2><span id="ch_period">Q1 2026</span></div>
+
+    <div class="month-pills" id="month_pills_ch"></div>
+
+    <div class="grid-3" id="channel_cards">
+      <!-- filled by JS -->
+    </div>
+
+  </div>
+
+  <!-- ===== TAB: P&L ===== -->
+  <div id="tab-pl" class="tab-panel">
+    <div class="section-head"><h2>Winst & Verlies</h2><span>Januari – Mei 2026</span></div>
+    <table class="pl-table" id="pl_table">
+      <!-- filled by JS -->
+    </table>
+  </div>
+
+  <!-- ===== TAB: SCHULDEN ===== -->
+  <div id="tab-schulden" class="tab-panel">
+
+    <div class="section-head"><h2>Schuldpositie</h2><span>Per 28 mei 2026</span></div>
+
+    <div class="grid-2">
+      <div class="debt-card">
+        <div class="section-head" style="margin-bottom:20px"><h2>Shopify Capital</h2></div>
+        <div class="debt-row">
+          <div class="debt-top">
+            <span class="debt-name">Aflossing voortgang</span>
+            <span class="debt-amounts" id="sc_amounts">€12.963 terugbetaald van €82.500</span>
+          </div>
+          <div class="debt-bar-bg">
+            <div class="debt-bar-fill" id="sc_bar" style="width:15.7%;background:var(--negative)"></div>
+          </div>
+          <div class="debt-meta">
+            <span id="sc_pct">15,7% afgelost</span>
+            <span id="sc_rest">Nog open: ~€69.537</span>
+          </div>
+        </div>
+        <div class="signal orange" style="margin-top:16px">
+          <span class="signal-icon">⏱</span>
+          <div class="signal-text">
+            <strong>Aflossing: 12,5% van dagelijkse omzet</strong>
+            Bij €120K/mnd omzet: ~€15.000/mnd aflossing. Volledig afgelost ~september 2026.
+          </div>
+        </div>
+        <div class="signal green" style="margin-top:0">
+          <span class="signal-icon">✅</span>
+          <div class="signal-text">
+            <strong>Kosten: €7.500 totaal (10%)</strong>
+            Geleend €75.000, terug te betalen €82.500. Acceptabel voor groeikapitaal.
+          </div>
+        </div>
+      </div>
+
+      <div class="debt-card">
+        <div class="section-head" style="margin-bottom:20px"><h2>Geldvoorelkaar</h2></div>
+        <div class="debt-row">
+          <div class="debt-top">
+            <span class="debt-name">Aflossing voortgang</span>
+            <span class="debt-amounts">€40.564 terugbetaald van €141.258</span>
+          </div>
+          <div class="debt-bar-bg">
+            <div class="debt-bar-fill" style="width:28.7%;background:var(--warning)"></div>
+          </div>
+          <div class="debt-meta">
+            <span>28,7% afgelost</span>
+            <span>Nog open: €100.694</span>
+          </div>
+        </div>
+        <div class="debt-row" style="margin-top:16px">
+          <div class="debt-top">
+            <span class="debt-name">Looptijd</span>
+            <span class="debt-amounts">60 maanden | 9% rente</span>
+          </div>
+          <div class="debt-bar-bg">
+            <div class="debt-bar-fill" style="width:28.3%;background:var(--accent3)"></div>
+          </div>
+          <div class="debt-meta">
+            <span>~17 maanden verstreken</span>
+            <span>~43 maanden resterend</span>
+          </div>
+        </div>
+        <div class="signal orange" style="margin-top:16px">
+          <span class="signal-icon">📅</span>
+          <div class="signal-text">
+            <strong>€2.342/maand vast — t/m eind 2029</strong>
+            Doel: vervroegd aflossen in december 2026 met Black Friday winst (~€87K beschikbaar).
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ===== TAB: FORECAST ===== -->
+  <div id="tab-forecast" class="tab-panel">
+
+    <div class="section-head"><h2>Forecast H2 2026</h2><span>Op basis van huidige groei + nieuwe leverancier</span></div>
+
+    <div class="grid-3" style="margin-bottom:24px">
+      <div class="mcard">
+        <div class="mcard-label">Verwacht cumulatief H2</div>
+        <div class="mcard-value pos">+€189.389</div>
+        <div class="mcard-sub">Na alle kosten en schulden</div>
+      </div>
+      <div class="mcard">
+        <div class="mcard-label">Break-even maand</div>
+        <div class="mcard-value" style="color:var(--warning)">Oktober</div>
+        <div class="mcard-sub">SC afgelost + nieuwe leverancier 35%</div>
+      </div>
+      <div class="mcard">
+        <div class="mcard-label">Impact nieuwe leverancier</div>
+        <div class="mcard-value pos">+€26.400</div>
+        <div class="mcard-sub">Extra per maand bij €220K omzet</div>
+      </div>
+    </div>
+
+    <div class="forecast-card">
+      <div id="forecast_rows"></div>
+    </div>
+
+    <div class="spacer"></div>
+
+    <div class="section-head"><h2>Nieuwe leverancier — Status</h2><span>Pakistan | 35% inkoop incl. Leon</span></div>
+    <div>
+      <div class="signal green"><span class="signal-icon">✅</span><div class="signal-text"><strong>Handtekening gezet — week van 28 mei 2026</strong>Productie start deze week in Pakistan.</div></div>
+      <div class="signal orange"><span class="signal-icon">🏭</span><div class="signal-text"><strong>Productie: 4–6 weken</strong>Verwachte gereedheid: mid juli 2026.</div></div>
+      <div class="signal orange"><span class="signal-icon">🚢</span><div class="signal-text"><strong>Zeetransport: 4–6 weken</strong>Verwachte levering Nederland: mid augustus 2026.</div></div>
+      <div class="signal green"><span class="signal-icon">🎯</span><div class="signal-text"><strong>Black Friday 27 november: 90+ dagen buffer</strong>Ruim op tijd voor het seizoen. QC-controle vóór verscheping is gepland.</div></div>
+      <div class="signal green"><span class="signal-icon">💰</span><div class="signal-text"><strong>Inkoop 47% → 35% = structurele margesprong</strong>CM% na ads stijgt van ~14% naar ~27% vanaf oktober.</div></div>
+    </div>
+
+  </div>
+
+</div><!-- /container -->
+
+<script>
+// ============================================================
+// DATA
+// ============================================================
+
+const DATA = {
+  2026: {
+    jan: {
+      omzet_shopify: 31671, omzet_bol: 7961, omzet_amazon: 118, omzet_daisycon: 440, omzet_paypro: 627, omzet_influencer: 1118,
+      orders_shopify: 266, orders_bol: 80, orders_amazon: 2, orders_daisycon: 5, orders_paypro: 6, orders_influencer: 7,
+      meta_spend: 9585, google_spend: 3383, bol_adspend: 2027, amazon_adspend: 0,
+      inkoop_pct: 0.47, fulfillment: 6.92, betaalverwerking: 1.30,
+      kostprijs: 18061, verzend: 3720, psp: 450,
+      bruto_marge: 16197,
+      opex_adspend: 14987, opex_adspec: 980, opex_huur: 600, opex_kantoor: 700, opex_content: 258, opex_lening: 1600,
+      ebitda: -2928,
+      nieuwe_klanten: 221,
+    },
+    feb: {
+      omzet_shopify: 39096, omzet_bol: 5922, omzet_amazon: 25, omzet_daisycon: 0, omzet_paypro: 2785, omzet_influencer: 1691,
+      orders_shopify: 363, orders_bol: 59, orders_amazon: 1, orders_daisycon: 0, orders_paypro: 18, orders_influencer: 10,
+      meta_spend: 10933, google_spend: 1569, bol_adspend: 1149, amazon_adspend: 0,
+      inkoop_pct: 0.47, fulfillment: 6.92, betaalverwerking: 1.30,
+      kostprijs: 29618, verzend: 4378, psp: 550,
+      bruto_marge: 24742,
+      opex_adspend: 20302, opex_adspec: 4880, opex_huur: 600, opex_kantoor: 700, opex_content: 520, opex_lening: 1600,
+      ebitda: -3860,
+      nieuwe_klanten: 300,
+    },
+    mrt: {
+      omzet_shopify: 67340, omzet_bol: 8864, omzet_amazon: 1614, omzet_daisycon: 497, omzet_paypro: 4015, omzet_influencer: 2396,
+      orders_shopify: 558, orders_bol: 81, orders_amazon: 27, orders_daisycon: 13, orders_paypro: 24, orders_influencer: 11,
+      meta_spend: 18971, google_spend: 3200, bol_adspend: 1143, amazon_adspend: 978,
+      inkoop_pct: 0.47, fulfillment: 6.92, betaalverwerking: 1.30,
+      kostprijs: 35208, verzend: 6386, psp: 852,
+      bruto_marge: 32065,
+      opex_adspend: 23972, opex_adspec: 5832, opex_huur: 600, opex_kantoor: 700, opex_content: 680, opex_lening: 1600,
+      ebitda: -1318,
+      nieuwe_klanten: 462,
+    },
+    apr: {
+      omzet_shopify: 48770, omzet_bol: 0, omzet_amazon: 0, omzet_daisycon: 0, omzet_paypro: 0, omzet_influencer: 0,
+      orders_shopify: 385, orders_bol: 0, orders_amazon: 0, orders_daisycon: 0, orders_paypro: 0, orders_influencer: 0,
+      meta_spend: 21631, google_spend: 5299, bol_adspend: 0, amazon_adspend: 503,
+      inkoop_pct: 0.47, fulfillment: 6.92, betaalverwerking: 1.30,
+      kostprijs: null, verzend: null, psp: null,
+      bruto_marge: null,
+      opex_adspend: 26930, opex_adspec: 4898, opex_huur: 600, opex_kantoor: 700, opex_content: 0, opex_lening: 1600,
+      ebitda: null,
+      nieuwe_klanten: 319,
+      note: 'Bol/Amazon/kanalen nog niet ingevuld'
+    },
+    mei: {
+      omzet_shopify: 105621, omzet_bol: 0, omzet_amazon: 0, omzet_daisycon: 0, omzet_paypro: 0, omzet_influencer: 0,
+      orders_shopify: 775, orders_bol: 0, orders_amazon: 0, orders_daisycon: 0, orders_paypro: 0, orders_influencer: 0,
+      meta_spend: 33441, google_spend: 8481, bol_adspend: 0, amazon_adspend: 493,
+      inkoop_pct: 0.47, fulfillment: 6.92, betaalverwerking: 1.30,
+      kostprijs: null, verzend: null, psp: null,
+      bruto_marge: null,
+      opex_adspend: 41922, opex_adspec: 3610, opex_huur: 600, opex_kantoor: 700, opex_content: 0, opex_lening: 1600,
+      ebitda: null,
+      nieuwe_klanten: 643,
+      note: 'Kanalen nog niet ingevuld — beste Shopify maand ooit'
+    },
+  },
+  2025: {
+    jan: { omzet_shopify: 24380, orders_shopify: 228, meta_spend: 8496, google_spend: 1500, kostprijs: 14140, bruto_marge: 8304, ebitda: -3799, nieuwe_klanten: 180 },
+    feb: { omzet_shopify: 20725, orders_shopify: 188, meta_spend: 8448, google_spend: 1500, kostprijs: 10570, bruto_marge: 7960, ebitda: -4188, nieuwe_klanten: 150 },
+    mrt: { omzet_shopify: 19894, orders_shopify: 183, meta_spend: 4667, google_spend: 1500, kostprijs: 10146, bruto_marge: 7689, ebitda: -678, nieuwe_klanten: 145 },
+    apr: { omzet_shopify: 24870, orders_shopify: 193, meta_spend: 5712, google_spend: 1500, kostprijs: 12684, bruto_marge: 9957, ebitda: 545, nieuwe_klanten: 155 },
+    mei: { omzet_shopify: 27256, orders_shopify: 261, meta_spend: 9948, google_spend: 1500, kostprijs: 13901, bruto_marge: 10367, ebitda: -4221, nieuwe_klanten: 200 },
+    jun: { omzet_shopify: 34687, orders_shopify: 312, meta_spend: 10987, google_spend: 1500, kostprijs: 16303, bruto_marge: 14812, ebitda: -816, nieuwe_klanten: 240 },
+    jul: { omzet_shopify: 34969, orders_shopify: 370, meta_spend: 11089, google_spend: 1500, kostprijs: 16435, bruto_marge: 14297, ebitda: -1532, nieuwe_klanten: 280 },
+    aug: { omzet_shopify: 37521, orders_shopify: 360, meta_spend: 13884, google_spend: 1500, kostprijs: 17635, bruto_marge: 15764, ebitda: -3759, nieuwe_klanten: 270 },
+    sep: { omzet_shopify: 36186, orders_shopify: 329, meta_spend: 12974, google_spend: 1500, kostprijs: 17007, bruto_marge: 15412, ebitda: -2923, nieuwe_klanten: 250 },
+    okt: { omzet_shopify: 48015, orders_shopify: 406, meta_spend: 14825, google_spend: 1500, kostprijs: 22087, bruto_marge: 20767, ebitda: 772, nieuwe_klanten: 320 },
+    nov: { omzet_shopify: 71020, orders_shopify: 780, meta_spend: 24067, google_spend: 1500, kostprijs: 33379, bruto_marge: 28822, ebitda: -1341, nieuwe_klanten: 600 },
+    dec: { omzet_shopify: 47839, orders_shopify: 555, meta_spend: 17157, google_spend: 1500, kostprijs: 22006, bruto_marge: 19589, ebitda: -3563, nieuwe_klanten: 420 },
+  }
+};
+
+const MAANDEN = ['jan','feb','mrt','apr','mei','jun','jul','aug','sep','okt','nov','dec'];
+const MAAND_LABELS = ['Jan','Feb','Mrt','Apr','Mei','Jun','Jul','Aug','Sep','Okt','Nov','Dec'];
+
+const FORECAST_DATA = [
+  { m: 'Jun', omzet: 115000, ads: 38000, orders: 860, inkoop: 0.47, sc_open_start: 69537, netto: -7613 },
+  { m: 'Jul', omzet: 140000, ads: 45000, orders: 1050, inkoop: 0.47, netto: -6050 },
+  { m: 'Aug', omzet: 160000, ads: 52000, orders: 1200, inkoop: 0.47, netto: -6183 },
+  { m: 'Sep', omzet: 180000, ads: 58000, orders: 1350, inkoop: 0.47, netto: -478 },
+  { m: 'Okt', omzet: 220000, ads: 70000, orders: 1650, inkoop: 0.35, netto: 50318, new_supplier: true },
+  { m: 'Nov', omzet: 300000, ads: 95000, orders: 2250, inkoop: 0.35, netto: 72386, new_supplier: true },
+  { m: 'Dec', omzet: 350000, ads: 110000, orders: 2600, inkoop: 0.35, netto: 87009, new_supplier: true },
+];
+
+// State
+let activeMonth = 'mei';
+let activeYear = 2026;
+
+// ============================================================
+// HELPERS
+// ============================================================
+const eur = (v, decimals=0) => {
+  if (v === null || v === undefined) return '—';
+  const abs = Math.abs(v);
+  const formatted = abs.toLocaleString('nl-NL', { minimumFractionDigits: decimals, maximumFractionDigits: decimals });
+  return (v < 0 ? '-' : '') + '€' + formatted;
+};
+
+const pct = (v) => v === null ? '—' : v.toFixed(1) + '%';
+
+const getMonthData = (year, month) => {
+  const d = DATA[year]?.[month];
+  if (!d) return null;
+  return d;
+};
+
+// Compute derived metrics
+const compute = (d) => {
+  if (!d) return {};
+  const omzet_total = (d.omzet_shopify||0) + (d.omzet_bol||0) + (d.omzet_amazon||0) + (d.omzet_daisycon||0) + (d.omzet_paypro||0) + (d.omzet_influencer||0);
+  const orders_total = (d.orders_shopify||0) + (d.orders_bol||0) + (d.orders_amazon||0) + (d.orders_daisycon||0) + (d.orders_paypro||0) + (d.orders_influencer||0);
+  const ads_total = (d.meta_spend||0) + (d.google_spend||0) + (d.bol_adspend||0) + (d.amazon_adspend||0);
+  const aov = orders_total > 0 ? omzet_total / orders_total : 0;
+  const inkoop = d.kostprijs || omzet_total * (d.inkoop_pct || 0.47);
+  const verzend = d.verzend || (d.fulfillment || 6.92) * orders_total;
+  const psp_val = d.psp || (d.betaalverwerking || 1.30) * orders_total;
+  const bruto = d.bruto_marge !== null && d.bruto_marge !== undefined ? d.bruto_marge : (omzet_total - inkoop - verzend - psp_val);
+  const bruto_pct = omzet_total > 0 ? bruto / omzet_total * 100 : 0;
+  const cm_na_ads = bruto - ads_total;
+  const cm_na_ads_pct = omzet_total > 0 ? cm_na_ads / omzet_total * 100 : 0;
+  const roas = ads_total > 0 ? omzet_total / ads_total : 0;
+  const cpa = (d.nieuwe_klanten||0) > 0 ? ads_total / d.nieuwe_klanten : 0;
+  const netto = d.ebitda;
+  return { omzet_total, orders_total, ads_total, aov, inkoop, verzend, psp_val, bruto, bruto_pct, cm_na_ads, cm_na_ads_pct, roas, cpa, netto };
+};
+
+// ============================================================
+// RENDER FUNCTIONS
+// ============================================================
+
+function renderMonthPills(containerId, onClickFn) {
+  const year = parseInt(document.getElementById('year_select').value);
+  const container = document.getElementById(containerId);
+  container.innerHTML = MAANDEN.map((m, i) => {
+    const hasData = !!DATA[year]?.[m];
+    const isActive = m === activeMonth;
+    return `<div class="month-pill ${hasData?'hasdata':''} ${isActive?'active':''}" onclick="${onClickFn}('${m}')">${MAAND_LABELS[i]}</div>`;
+  }).join('');
+}
+
+function selectMonth(m) {
+  activeMonth = m;
+  renderAll();
+}
+
+function renderOverzicht() {
+  const year = parseInt(document.getElementById('year_select').value);
+  const d = getMonthData(year, activeMonth);
+  const c = compute(d);
+  const mi = MAANDEN.indexOf(activeMonth);
+  document.getElementById('ov_period').textContent = MAAND_LABELS[mi] + ' ' + year;
+
+  renderMonthPills('month_pills_ov', 'selectMonth');
+
+  // Cards
+  const cards = [
+    { label: 'Totale omzet', val: eur(c.omzet_total), sub: `${c.orders_total} orders | AOV ${eur(c.aov)}`, cls: '' },
+    { label: 'Bruto marge', val: c.bruto !== null ? eur(c.bruto) : '—', sub: `${pct(c.bruto_pct)} van omzet`, cls: c.bruto_pct > 35 ? 'pos' : 'warn' },
+    { label: 'Ad spend totaal', val: eur(c.ads_total), sub: `ROAS: ${c.roas.toFixed(2)}x`, cls: 'neg' },
+    { label: 'CM ná ads', val: eur(c.cm_na_ads), sub: `${pct(c.cm_na_ads_pct)} van omzet`, cls: c.cm_na_ads >= 0 ? 'pos' : 'neg' },
+    { label: 'CPA werkelijk', val: c.cpa > 0 ? eur(c.cpa) : '—', sub: 'Target ≤ €55', cls: c.cpa > 55 ? 'neg' : (c.cpa > 0 ? 'pos' : '') },
+  ];
+
+  document.getElementById('ov_cards').innerHTML = cards.map(card => `
+    <div class="mcard">
+      <div class="mcard-label">${card.label}</div>
+      <div class="mcard-value ${card.cls}">${card.val}</div>
+      <div class="mcard-sub">${card.sub}</div>
+    </div>
+  `).join('');
+
+  // KPIs
+  const kpis = [
+    { name: 'ROAS', val: c.roas > 0 ? c.roas.toFixed(2) + 'x' : '—', target: 'Target ≥ 2,5x', ok: c.roas >= 2.5, hasdata: c.ads_total > 0 },
+    { name: 'CPA', val: c.cpa > 0 ? eur(c.cpa) : '—', target: 'Target ≤ €55', ok: c.cpa <= 55 && c.cpa > 0, hasdata: c.cpa > 0 },
+    { name: 'CM% na ads', val: pct(c.cm_na_ads_pct), target: 'Target ≥ 10%', ok: c.cm_na_ads_pct >= 10, hasdata: c.omzet_total > 0 },
+    { name: 'AOV', val: eur(c.aov), target: 'Target ≥ €120', ok: c.aov >= 120, hasdata: c.orders_total > 0 },
+    { name: 'Nieuwe klanten', val: d?.nieuwe_klanten ? d.nieuwe_klanten + ' klanten' : '—', target: 'Target ≥ 200/mnd', ok: (d?.nieuwe_klanten||0) >= 200, hasdata: !!(d?.nieuwe_klanten) },
+    { name: 'TW netto winst', val: '≥ €9.119/mnd', target: 'Check Triple Whale', ok: null, hasdata: false },
+  ];
+
+  document.getElementById('kpi_grid').innerHTML = kpis.map(k => {
+    const badgeCls = !k.hasdata ? 'warn' : (k.ok === null ? 'warn' : (k.ok ? 'ok' : 'bad'));
+    const badgeIcon = !k.hasdata ? '?' : (k.ok === null ? '→' : (k.ok ? '✓' : '✗'));
+    return `
+      <div class="kpi-item">
+        <div class="kpi-left">
+          <div class="kpi-name">${k.name}</div>
+          <div class="kpi-val ${k.ok ? 'pos' : (k.ok === false ? 'neg' : '')}">${k.val}</div>
+          <div class="kpi-target">${k.target}</div>
+        </div>
+        <div class="kpi-badge ${badgeCls}">${badgeIcon}</div>
+      </div>`;
+  }).join('');
+
+  // Signals
+  const signals = [];
+  if (!d) {
+    signals.push({ cls: 'orange', icon: '📭', title: 'Geen data voor deze maand', body: 'Voeg de cijfers toe om signalen te zien.' });
+  } else {
+    if (d.note) signals.push({ cls: 'orange', icon: '⚠️', title: 'Gedeeltelijke data', body: d.note });
+    if (c.roas < 2.0 && c.ads_total > 0) signals.push({ cls: 'red', icon: '🚨', title: `ROAS ${c.roas.toFixed(2)}x — te laag`, body: 'Target is ≥2,5x. Ad spend direct verlagen of campagnes herstructureren.' });
+    else if (c.roas < 2.5 && c.ads_total > 0) signals.push({ cls: 'orange', icon: '⚠️', title: `ROAS ${c.roas.toFixed(2)}x — net onder target`, body: 'Scherp monitoren. Inefficiënte campagnes uitzetten.' });
+    else if (c.ads_total > 0) signals.push({ cls: 'green', icon: '✅', title: `ROAS ${c.roas.toFixed(2)}x — boven target`, body: 'Ads presteren goed. Ruimte om te schalen.' });
+
+    if (c.cpa > 70 && c.cpa > 0) signals.push({ cls: 'red', icon: '🚨', title: `CPA ${eur(c.cpa)} — te hoog`, body: 'Target ≤€55. Controleer welke campagnes CPA omhoog trekken.' });
+    else if (c.cpa > 55 && c.cpa > 0) signals.push({ cls: 'orange', icon: '⚠️', title: `CPA ${eur(c.cpa)} — boven target`, body: 'Licht boven target van €55. Bijsturen.' });
+    else if (c.cpa > 0) signals.push({ cls: 'green', icon: '✅', title: `CPA ${eur(c.cpa)} — binnen target`, body: 'Klantacquisitie efficiënt.' });
+
+    if (c.cm_na_ads < 0) signals.push({ cls: 'red', icon: '🚨', title: `CM na ads negatief: ${eur(c.cm_na_ads)}`, body: 'Je geeft meer uit aan ads dan er na variabele kosten overblijft.' });
+    else if (c.cm_na_ads_pct < 10) signals.push({ cls: 'orange', icon: '⚠️', title: `CM% ${pct(c.cm_na_ads_pct)} — onder target`, body: 'Target is ≥10%. Marge te dun om comfortabel te schalen.' });
+    else signals.push({ cls: 'green', icon: '✅', title: `CM na ads: ${eur(c.cm_na_ads)} (${pct(c.cm_na_ads_pct)})`, body: 'Gezonde contributie marge.' });
+
+    if (c.aov < 100 && c.orders_total > 0) signals.push({ cls: 'red', icon: '🚨', title: `AOV ${eur(c.aov)} — te laag`, body: 'Target ≥€120. Bundels promoten of upsells activeren.' });
+    else if (c.aov < 120 && c.orders_total > 0) signals.push({ cls: 'orange', icon: '⚠️', title: `AOV ${eur(c.aov)} — onder target`, body: 'Ruimte voor verbetering via bundelpromotie.' });
+  }
+
+  document.getElementById('signals_container').innerHTML = signals.map(s =>
+    `<div class="signal ${s.cls}"><span class="signal-icon">${s.icon}</span><div class="signal-text"><strong>${s.title}</strong>${s.body}</div></div>`
+  ).join('');
+}
+
+function renderKanalen() {
+  const year = parseInt(document.getElementById('year_select').value);
+  renderMonthPills('month_pills_ch', 'selectMonthCh');
+  const d = getMonthData(year, activeMonth);
+  const mi = MAANDEN.indexOf(activeMonth);
+  document.getElementById('ch_period').textContent = MAAND_LABELS[mi] + ' ' + year;
+
+  if (!d) {
+    document.getElementById('channel_cards').innerHTML = '<div class="mcard" style="grid-column:1/-1"><div class="mcard-label">Geen data beschikbaar</div></div>';
+    return;
+  }
+
+  const channels = [
+    {
+      name: 'Shopify', icon: '🛒', color: '#2a8c5e',
+      omzet: d.omzet_shopify||0, orders: d.orders_shopify||0,
+      adspend: (d.meta_spend||0) + (d.google_spend||0),
+      inkoop: (d.omzet_shopify||0) * (d.inkoop_pct||0.47),
+      verzend: (d.fulfillment||6.92) * (d.orders_shopify||0),
+      extra: [
+        { l: 'Meta spend', v: d.meta_spend||0 },
+        { l: 'Google spend', v: d.google_spend||0 },
+        { l: 'AOV', v: d.orders_shopify > 0 ? (d.omzet_shopify/d.orders_shopify) : 0, is_aov: true },
+      ]
+    },
+    {
+      name: 'Bol.com', icon: '🔵', color: '#2a5a8c',
+      omzet: d.omzet_bol||0, orders: d.orders_bol||0,
+      adspend: d.bol_adspend||0,
+      inkoop: (d.omzet_bol||0) * 0.50,
+      verzend: (d.orders_bol||0) * 9.20,
+      extra: [
+        { l: 'Commissie ~17%', v: (d.omzet_bol||0) * 0.17 },
+        { l: 'Ad spend Bol', v: d.bol_adspend||0 },
+      ]
+    },
+    {
+      name: 'Amazon', icon: '📦', color: '#c87a2a',
+      omzet: d.omzet_amazon||0, orders: d.orders_amazon||0,
+      adspend: d.amazon_adspend||0,
+      inkoop: (d.omzet_amazon||0) * 0.51,
+      verzend: (d.orders_amazon||0) * 11.00,
+      extra: [
+        { l: 'Commissie ~13%', v: (d.omzet_amazon||0) * 0.13 },
+        { l: 'Maandkosten', v: 45 },
+      ]
+    },
+    {
+      name: 'Daisycon', icon: '🔗', color: '#8c2a5a',
+      omzet: d.omzet_daisycon||0, orders: d.orders_daisycon||0,
+      adspend: 0,
+      inkoop: (d.omzet_daisycon||0) * 0.45,
+      verzend: (d.orders_daisycon||0) * 10.75,
+      extra: [
+        { l: 'Commissie ~11%', v: (d.omzet_daisycon||0) * 0.11 },
+      ]
+    },
+    {
+      name: 'PayPro', icon: '💳', color: '#5a2a8c',
+      omzet: d.omzet_paypro||0, orders: d.orders_paypro||0,
+      adspend: 0,
+      inkoop: (d.omzet_paypro||0) * 0.45,
+      verzend: (d.orders_paypro||0) * 8.90,
+      extra: [
+        { l: 'Commissie ~12%', v: (d.omzet_paypro||0) * 0.12 },
+      ]
+    },
+    {
+      name: 'Influencers', icon: '⭐', color: '#c8522a',
+      omzet: d.omzet_influencer||0, orders: d.orders_influencer||0,
+      adspend: 0,
+      inkoop: (d.omzet_influencer||0) * 0.47,
+      verzend: (d.orders_influencer||0) * 10.75,
+      extra: [
+        { l: 'Commissie 10%', v: (d.omzet_influencer||0) * 0.10 },
+      ]
+    },
+  ];
+
+  document.getElementById('channel_cards').innerHTML = channels.map(ch => {
+    const totaal_kosten = ch.inkoop + ch.verzend + ch.adspend + ch.extra.reduce((s, e) => s + (e.is_aov ? 0 : e.v), 0);
+    const winst = ch.omzet - totaal_kosten;
+    const winst_pct = ch.omzet > 0 ? winst / ch.omzet * 100 : 0;
+    const roas = ch.adspend > 0 ? ch.omzet / ch.adspend : null;
+
+    return `
+      <div class="channel-card">
+        <div class="channel-header">
+          <div class="channel-name">
+            <div class="channel-dot" style="background:${ch.color}"></div>
+            ${ch.icon} ${ch.name}
+          </div>
+          <div class="channel-result ${winst >= 0 ? 'pos' : 'neg'}">${winst >= 0 ? '+' : ''}${eur(winst)}</div>
+        </div>
+        <div class="channel-body">
+          <div class="channel-row"><span class="label">Omzet</span><span class="value">${eur(ch.omzet)}</span></div>
+          <div class="channel-row"><span class="label">Orders</span><span class="value">${ch.orders}</span></div>
+          <div class="channel-row"><span class="label">Inkoop (~${ch.name==='Bol.com'?'50':'47'}%)</span><span class="value neg">-${eur(ch.inkoop)}</span></div>
+          <div class="channel-row"><span class="label">Verzend/fulfillment</span><span class="value neg">-${eur(ch.verzend)}</span></div>
+          ${ch.extra.map(e => `<div class="channel-row"><span class="label">${e.l}</span><span class="value ${e.is_aov ? '' : 'neg'}">${e.is_aov ? eur(e.v) : '-'+eur(e.v)}</span></div>`).join('')}
+          ${ch.adspend > 0 ? `<div class="channel-row"><span class="label">Ad spend</span><span class="value neg">-${eur(ch.adspend)}</span></div>` : ''}
+          ${roas ? `<div class="channel-row"><span class="label">ROAS</span><span class="value">${roas.toFixed(2)}x</span></div>` : ''}
+          <div class="channel-row" style="margin-top:4px;border-top:2px solid var(--ink)">
+            <span class="label" style="font-weight:600;color:var(--ink)">Resultaat</span>
+            <span class="value ${winst >= 0 ? 'pos' : 'neg'}" style="font-weight:700">${winst >= 0 ? '+' : ''}${eur(winst)} (${pct(winst_pct)})</span>
+          </div>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+function selectMonthCh(m) { activeMonth = m; renderAll(); }
+
+function renderPL() {
+  const year = parseInt(document.getElementById('year_select').value);
+  const months = MAANDEN.filter(m => DATA[year]?.[m]);
+  const labels = months.map(m => MAAND_LABELS[MAANDEN.indexOf(m)]);
+
+  const rows = [
+    { label: 'OMZET', type: 'header' },
+    { label: 'Shopify', key: 'omzet_shopify', indent: true },
+    { label: 'Bol.com', key: 'omzet_bol', indent: true },
+    { label: 'Amazon', key: 'omzet_amazon', indent: true },
+    { label: 'Daisycon', key: 'omzet_daisycon', indent: true },
+    { label: 'PayPro', key: 'omzet_paypro', indent: true },
+    { label: 'Influencers', key: 'omzet_influencer', indent: true },
+    { label: 'Totale omzet', type: 'subtotal', fn: d => (d.omzet_shopify||0)+(d.omzet_bol||0)+(d.omzet_amazon||0)+(d.omzet_daisycon||0)+(d.omzet_paypro||0)+(d.omzet_influencer||0) },
+    { label: '', type: 'spacer' },
+    { label: 'KOSTEN', type: 'header' },
+    { label: 'Kostprijs / inkoop', key: 'kostprijs', neg: true, indent: true },
+    { label: 'Verzendkosten', key: 'verzend', neg: true, indent: true },
+    { label: 'Payment providers', key: 'psp', neg: true, indent: true },
+    { label: 'Bruto marge', type: 'subtotal', key: 'bruto_marge' },
+    { label: '', type: 'spacer' },
+    { label: 'Ad spend totaal', type: 'subtotal', fn: d => -((d.meta_spend||0)+(d.google_spend||0)+(d.bol_adspend||0)+(d.amazon_adspend||0)), neg: true },
+    { label: 'Ad specialisten', key: 'opex_adspec', neg: true, indent: true },
+    { label: 'Huur', key: 'opex_huur', neg: true, indent: true },
+    { label: 'Kantoorkosten', key: 'opex_kantoor', neg: true, indent: true },
+    { label: 'Content creatie', key: 'opex_content', neg: true, indent: true },
+    { label: 'Lening aflossing', key: 'opex_lening', neg: true, indent: true },
+    { label: '', type: 'spacer' },
+    { label: 'EBITDA', type: 'total', key: 'ebitda' },
+  ];
+
+  const colCount = months.length;
+  let html = `<thead><tr><th style="width:200px">Post</th>${labels.map(l => `<th>${l}</th>`).join('')}<th>Totaal</th></tr></thead><tbody>`;
+
+  rows.forEach(row => {
+    if (row.type === 'header') {
+      html += `<tr><td colspan="${colCount+2}" style="padding:16px 14px 4px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:var(--ink2);background:var(--surface2)">${row.label}</td></tr>`;
+      return;
+    }
+    if (row.type === 'spacer') {
+      html += `<tr><td colspan="${colCount+2}" style="height:4px;background:var(--surface2)"></td></tr>`;
+      return;
+    }
+
+    const vals = months.map(m => {
+      const d = DATA[year][m];
+      if (row.fn) return row.fn(d);
+      if (row.key) return d[row.key] ?? null;
+      return null;
+    });
+
+    const total = vals.reduce((s, v) => s + (v||0), 0);
+    const trCls = row.type === 'subtotal' ? 'subtotal' : (row.type === 'total' ? 'total' : '');
+    const tdCls = row.indent ? 'indent' : '';
+
+    html += `<tr class="${trCls}">
+      <td class="${tdCls}">${row.label}</td>
+      ${vals.map(v => {
+        if (v === null) return `<td class="warn">—</td>`;
+        const isNeg = row.neg ? v > 0 : v < 0;
+        const cls = v === 0 ? '' : (isNeg ? 'neg' : 'pos');
+        const display = row.neg ? eur(-Math.abs(v)) : eur(v);
+        return `<td class="${cls}">${display}</td>`;
+      }).join('')}
+      <td class="${total < 0 ? 'neg' : (total > 0 ? 'pos' : '')}">${row.neg ? eur(-Math.abs(total)) : eur(total)}</td>
+    </tr>`;
+  });
+
+  html += '</tbody>';
+  document.getElementById('pl_table').innerHTML = html;
+}
+
+function renderForecast() {
+  const maxNetto = Math.max(...FORECAST_DATA.map(f => Math.abs(f.netto)));
+  let cum = 0;
+  document.getElementById('forecast_rows').innerHTML = FORECAST_DATA.map(f => {
+    cum += f.netto;
+    const isPos = f.netto >= 0;
+    const barPct = Math.min(Math.abs(f.netto) / maxNetto * 100, 100);
+    const tagTxt = f.new_supplier ? 'Nieuwe lev.' : (isPos ? 'Positief' : 'SC afloss.');
+    const tagCls = f.new_supplier ? 'new' : (isPos ? 'pos' : 'neg');
+    return `
+      <div class="forecast-row">
+        <div class="fc-month ${f.new_supplier ? 'active' : ''}">${f.m}</div>
+        <div class="fc-omzet">${eur(f.omzet)}</div>
+        <div class="fc-bar-wrap">
+          <div class="fc-bar-bg"></div>
+          <div class="fc-bar-fill" style="width:${barPct}%;background:${isPos ? 'var(--positive)' : 'var(--negative)'}"></div>
+        </div>
+        <div class="fc-netto ${isPos ? 'pos' : 'neg'}">${isPos ? '+' : ''}${eur(f.netto)}</div>
+        <div class="fc-tag ${tagCls}">${tagTxt}</div>
+        <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--ink2);width:80px;text-align:right">cum: ${eur(cum)}</div>
+      </div>`;
+  }).join('');
+}
+
+function renderAll() {
+  activeYear = parseInt(document.getElementById('year_select').value);
+  renderOverzicht();
+  renderKanalen();
+  renderPL();
+  renderForecast();
+}
+
+function switchTab(tab) {
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  const tabs = ['overzicht','kanalen','pl','schulden','forecast'];
+  tabs.forEach((t, i) => {
+    if (t === tab) {
+      document.querySelectorAll('.nav-btn')[i].classList.add('active');
+      document.getElementById('tab-' + t).classList.add('active');
+    }
+  });
+}
+
+// Init
+renderAll();
+</script>
+
+</body>
+</html>
